@@ -5,10 +5,9 @@ using System;
 
 public class BeAttackedable : MonoBehaviour
 {
-    public event Action<Vector2, Vector2> OnHit;
-    public virtual void OnAttackHit(Vector2 position, Vector2 force, int damage)
-    {
-        OnHit?.Invoke(position,force);
-    }
+    /// <summary>
+    /// 受到攻击回调事件，arg1为攻击者坐标，arg2为击退力,arg3为攻击伤害
+    /// </summary>
+    public event Action<Vector3, Vector3,int> OnGetHit;
 }
 
