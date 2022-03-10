@@ -1,14 +1,20 @@
 using System;
 using System.Collections.Generic;
+/// <summary>
+/// ä¸åŒå‚æ•°æ•°é‡çš„å§”æ‰˜
+/// </summary>
 public delegate void CallBack();
 public delegate void CallBack<T>(T arg);
 public delegate void CallBack<T, X>(T arg1, X arg2);
 public delegate void CallBack<T, X, Y>(T arg1, X arg2, Y arg3);
 public delegate void CallBack<T, X, Y, Z>(T arg1, X arg2, Y arg3, Z arg4);
 public delegate void CallBack<T, X, Y, Z, W>(T arg1, X arg2, Y arg3, Z arg4, W arg5);
+/// <summary>
+/// å‡½æ•°ç»‘å®šè¾…åŠ©ç±» ç±»ä¼¼c++ä¸­çš„tri::bind() ç”¨äºå°†nä¸ªå‚æ•°çš„Aå‡½æ•°ç»‘å®šä¸ºn-1ä¸ªå‚æ•°çš„Bå‡½æ•° ç›¸å½“äºä¸ºå‡½æ•°AæŒ‡å®šéƒ¨åˆ†å‚æ•°
+/// </summary>
 public class BindHelper
 {
-    public static Func<T> Bind<T,T1>(Func<T1,T> func,T1 t1)
+    public static Func<T> Bind<T, T1>(Func<T1, T> func, T1 t1)
     {
         return () =>
         {
@@ -23,9 +29,17 @@ public class BindHelper
         };
     }
 }
+/// <summary>
+/// ä¸­å¿ƒäº‹ä»¶ç³»ç»Ÿ(å•ä¾‹æ¨¡å¼)
+/// </summary>
 public class EventCenter : BaseManager<EventCenter>
 {
     private Dictionary<EventType, Delegate> m_EventTable = new Dictionary<EventType, Delegate>();
+    /// <summary>
+    /// æ·»åŠ ä¸€ä¸ª0å‚æ•°å‡½æ•°ç›‘å¬ä¸€ä¸ªç±»å‹çš„äº‹ä»¶ï¼Œå½“è¯¥äº‹ä»¶è§¦å‘æ—¶ï¼Œä¼šè‡ªåŠ¨è°ƒç”¨æ·»åŠ çš„å‡½æ•°
+    /// </summary>
+    /// <param name="eventType">å¸Œæœ›ç›‘å¬çš„äº‹ä»¶ç±»å‹</param>
+    /// <param name="callBack">ç”¨äºç›‘å¬çš„å‡½æ•°</param>
     public void AddListener(EventType eventType, CallBack callBack)
     {
         if (!m_EventTable.ContainsKey(eventType))
@@ -35,11 +49,11 @@ public class EventCenter : BaseManager<EventCenter>
         Delegate d = m_EventTable[eventType];
         if (d != null && d.GetType() != callBack.GetType())
         {
-            throw new Exception(string.Format("³¢ÊÔÊÂ¼şÎª{0}Ìí¼Ó²»Í¬ÀàĞÍÎ¯ÍĞ£¬µ±Ç°Î¯ÍĞÀàĞÍÎª{1}£¬ÒªÌí¼ÓµÄÎ¯ÍĞÀàĞÍÎª{2}", eventType, d.GetType(), callBack.GetType()));
+            throw new Exception(string.Format("å°è¯•äº‹ä»¶ä¸º{0}æ·»åŠ ä¸åŒç±»å‹å§”æ‰˜ï¼Œå½“å‰å§”æ‰˜ç±»å‹ä¸º{1}ï¼Œè¦æ·»åŠ çš„å§”æ‰˜ç±»å‹ä¸º{2}", eventType, d.GetType(), callBack.GetType()));
         }
         m_EventTable[eventType] = (CallBack)m_EventTable[eventType] + callBack;
     }
-    public void AddListener<T>(EventType eventType,CallBack<T> callBack) 
+    public void AddListener<T>(EventType eventType, CallBack<T> callBack)
     {
         if (!m_EventTable.ContainsKey(eventType))
         {
@@ -48,7 +62,7 @@ public class EventCenter : BaseManager<EventCenter>
         Delegate d = m_EventTable[eventType];
         if (d != null && d.GetType() != callBack.GetType())
         {
-            throw new Exception(string.Format("³¢ÊÔÊÂ¼şÎª{0}Ìí¼Ó²»Í¬ÀàĞÍÎ¯ÍĞ£¬µ±Ç°Î¯ÍĞÀàĞÍÎª{1}£¬ÒªÌí¼ÓµÄÎ¯ÍĞÀàĞÍÎª{2}", eventType, d.GetType(), callBack.GetType()));
+            throw new Exception(string.Format("å°è¯•äº‹ä»¶ä¸º{0}æ·»åŠ ä¸åŒç±»å‹å§”æ‰˜ï¼Œå½“å‰å§”æ‰˜ç±»å‹ä¸º{1}ï¼Œè¦æ·»åŠ çš„å§”æ‰˜ç±»å‹ä¸º{2}", eventType, d.GetType(), callBack.GetType()));
         }
         m_EventTable[eventType] = (CallBack<T>)m_EventTable[eventType] + callBack;
     }
@@ -61,11 +75,11 @@ public class EventCenter : BaseManager<EventCenter>
         Delegate d = m_EventTable[eventType];
         if (d != null && d.GetType() != callBack.GetType())
         {
-            throw new Exception(string.Format("³¢ÊÔÊÂ¼şÎª{0}Ìí¼Ó²»Í¬ÀàĞÍÎ¯ÍĞ£¬µ±Ç°Î¯ÍĞÀàĞÍÎª{1}£¬ÒªÌí¼ÓµÄÎ¯ÍĞÀàĞÍÎª{2}", eventType, d.GetType(), callBack.GetType()));
+            throw new Exception(string.Format("å°è¯•äº‹ä»¶ä¸º{0}æ·»åŠ ä¸åŒç±»å‹å§”æ‰˜ï¼Œå½“å‰å§”æ‰˜ç±»å‹ä¸º{1}ï¼Œè¦æ·»åŠ çš„å§”æ‰˜ç±»å‹ä¸º{2}", eventType, d.GetType(), callBack.GetType()));
         }
         m_EventTable[eventType] = (CallBack<X, Y>)m_EventTable[eventType] + callBack;
     }
-    public void AddListener<X, Y,Z>(EventType eventType, CallBack<X, Y,Z> callBack)
+    public void AddListener<X, Y, Z>(EventType eventType, CallBack<X, Y, Z> callBack)
     {
         if (!m_EventTable.ContainsKey(eventType))
         {
@@ -74,11 +88,11 @@ public class EventCenter : BaseManager<EventCenter>
         Delegate d = m_EventTable[eventType];
         if (d != null && d.GetType() != callBack.GetType())
         {
-            throw new Exception(string.Format("³¢ÊÔÊÂ¼şÎª{0}Ìí¼Ó²»Í¬ÀàĞÍÎ¯ÍĞ£¬µ±Ç°Î¯ÍĞÀàĞÍÎª{1}£¬ÒªÌí¼ÓµÄÎ¯ÍĞÀàĞÍÎª{2}", eventType, d.GetType(), callBack.GetType()));
+            throw new Exception(string.Format("å°è¯•äº‹ä»¶ä¸º{0}æ·»åŠ ä¸åŒç±»å‹å§”æ‰˜ï¼Œå½“å‰å§”æ‰˜ç±»å‹ä¸º{1}ï¼Œè¦æ·»åŠ çš„å§”æ‰˜ç±»å‹ä¸º{2}", eventType, d.GetType(), callBack.GetType()));
         }
-        m_EventTable[eventType] = (CallBack<X, Y,Z>)m_EventTable[eventType] + callBack;
+        m_EventTable[eventType] = (CallBack<X, Y, Z>)m_EventTable[eventType] + callBack;
     }
-    public void AddListener<X, Y,Z,W>(EventType eventType, CallBack<X, Y,Z,W> callBack)
+    public void AddListener<X, Y, Z, W>(EventType eventType, CallBack<X, Y, Z, W> callBack)
     {
         if (!m_EventTable.ContainsKey(eventType))
         {
@@ -87,11 +101,11 @@ public class EventCenter : BaseManager<EventCenter>
         Delegate d = m_EventTable[eventType];
         if (d != null && d.GetType() != callBack.GetType())
         {
-            throw new Exception(string.Format("³¢ÊÔÊÂ¼şÎª{0}Ìí¼Ó²»Í¬ÀàĞÍÎ¯ÍĞ£¬µ±Ç°Î¯ÍĞÀàĞÍÎª{1}£¬ÒªÌí¼ÓµÄÎ¯ÍĞÀàĞÍÎª{2}", eventType, d.GetType(), callBack.GetType()));
+            throw new Exception(string.Format("å°è¯•äº‹ä»¶ä¸º{0}æ·»åŠ ä¸åŒç±»å‹å§”æ‰˜ï¼Œå½“å‰å§”æ‰˜ç±»å‹ä¸º{1}ï¼Œè¦æ·»åŠ çš„å§”æ‰˜ç±»å‹ä¸º{2}", eventType, d.GetType(), callBack.GetType()));
         }
-        m_EventTable[eventType] = (CallBack<X, Y,Z,W>)m_EventTable[eventType] + callBack;
+        m_EventTable[eventType] = (CallBack<X, Y, Z, W>)m_EventTable[eventType] + callBack;
     }
-    public void AddListener<X, Y,Z,W,T>(EventType eventType, CallBack<X, Y,Z,W,T> callBack)
+    public void AddListener<X, Y, Z, W, T>(EventType eventType, CallBack<X, Y, Z, W, T> callBack)
     {
         if (!m_EventTable.ContainsKey(eventType))
         {
@@ -100,10 +114,15 @@ public class EventCenter : BaseManager<EventCenter>
         Delegate d = m_EventTable[eventType];
         if (d != null && d.GetType() != callBack.GetType())
         {
-            throw new Exception(string.Format("³¢ÊÔÊÂ¼şÎª{0}Ìí¼Ó²»Í¬ÀàĞÍÎ¯ÍĞ£¬µ±Ç°Î¯ÍĞÀàĞÍÎª{1}£¬ÒªÌí¼ÓµÄÎ¯ÍĞÀàĞÍÎª{2}", eventType, d.GetType(), callBack.GetType()));
+            throw new Exception(string.Format("å°è¯•äº‹ä»¶ä¸º{0}æ·»åŠ ä¸åŒç±»å‹å§”æ‰˜ï¼Œå½“å‰å§”æ‰˜ç±»å‹ä¸º{1}ï¼Œè¦æ·»åŠ çš„å§”æ‰˜ç±»å‹ä¸º{2}", eventType, d.GetType(), callBack.GetType()));
         }
-        m_EventTable[eventType] = (CallBack<X, Y,Z,W,T>)m_EventTable[eventType] + callBack;
+        m_EventTable[eventType] = (CallBack<X, Y, Z, W, T>)m_EventTable[eventType] + callBack;
     }
+    /// <summary>
+    /// ç§»é™¤ä¸€ä¸ªæ­£åœ¨ç›‘å¬ä¸€ä¸ªç±»å‹äº‹ä»¶çš„0å‚æ•°å‡½æ•°
+    /// </summary>
+    /// <param name="eventType">ç§»é™¤å‡½æ•°æ­£åœ¨ç›‘å¬çš„äº‹ä»¶ç±»å‹</param>
+    /// <param name="callBack">å¸Œæœ›ç§»é™¤çš„å‡½æ•°</param>
     public void RemoveListener(EventType eventEnum, CallBack callBack)
     {
         if (m_EventTable.ContainsKey(eventEnum))
@@ -111,16 +130,16 @@ public class EventCenter : BaseManager<EventCenter>
             Delegate d = m_EventTable[eventEnum];
             if (d == null)
             {
-                throw new Exception(string.Format("ÒÆ³ıÊÂ¼ş´íÎó£ºÊÂ¼ş{0}Ã»ÓĞ¶ÔÓ¦µÄÎ¯ÍĞÀàĞÍ", eventEnum));
+                throw new Exception(string.Format("ç§»é™¤äº‹ä»¶é”™è¯¯ï¼šäº‹ä»¶{0}æ²¡æœ‰å¯¹åº”çš„å§”æ‰˜ç±»å‹", eventEnum));
             }
             else if (d.GetType() != callBack.GetType())
             {
-                throw new Exception(string.Format("ÒÆ³ıÊÂ¼ş´íÎó£ºÊÂ¼ş{0}Ã»ÓĞ¶ÔÓ¦µÄÎ¯ÍĞ,µ±Ç°Î¯ÍĞÎª{1}£¬ÒªÒÆ³ıµÄÊÂ¼şÎª{2}", eventEnum, d.GetType(), callBack.GetType()));
+                throw new Exception(string.Format("ç§»é™¤äº‹ä»¶é”™è¯¯ï¼šäº‹ä»¶{0}æ²¡æœ‰å¯¹åº”çš„å§”æ‰˜,å½“å‰å§”æ‰˜ä¸º{1}ï¼Œè¦ç§»é™¤çš„äº‹ä»¶ä¸º{2}", eventEnum, d.GetType(), callBack.GetType()));
             }
         }
         else
         {
-            throw new Exception(string.Format("ÒÆ³ıÊÂ¼ş´íÎó£ºÃ»ÓĞÊÂ¼şÂë{0}", eventEnum));
+            throw new Exception(string.Format("ç§»é™¤äº‹ä»¶é”™è¯¯ï¼šæ²¡æœ‰äº‹ä»¶ç {0}", eventEnum));
         }
         m_EventTable[eventEnum] = (CallBack)m_EventTable[eventEnum] - callBack;
         if (m_EventTable[eventEnum] == null)
@@ -135,16 +154,16 @@ public class EventCenter : BaseManager<EventCenter>
             Delegate d = m_EventTable[eventEnum];
             if (d == null)
             {
-                throw new Exception(string.Format("ÒÆ³ıÊÂ¼ş´íÎó£ºÊÂ¼ş{0}Ã»ÓĞ¶ÔÓ¦µÄÎ¯ÍĞÀàĞÍ", eventEnum));
+                throw new Exception(string.Format("ç§»é™¤äº‹ä»¶é”™è¯¯ï¼šäº‹ä»¶{0}æ²¡æœ‰å¯¹åº”çš„å§”æ‰˜ç±»å‹", eventEnum));
             }
             else if (d.GetType() != callBack.GetType())
             {
-                throw new Exception(string.Format("ÒÆ³ıÊÂ¼ş´íÎó£ºÊÂ¼ş{0}Ã»ÓĞ¶ÔÓ¦µÄÎ¯ÍĞ,µ±Ç°Î¯ÍĞÎª{1}£¬ÒªÒÆ³ıµÄÊÂ¼şÎª{2}", eventEnum, d.GetType(), callBack.GetType()));
+                throw new Exception(string.Format("ç§»é™¤äº‹ä»¶é”™è¯¯ï¼šäº‹ä»¶{0}æ²¡æœ‰å¯¹åº”çš„å§”æ‰˜,å½“å‰å§”æ‰˜ä¸º{1}ï¼Œè¦ç§»é™¤çš„äº‹ä»¶ä¸º{2}", eventEnum, d.GetType(), callBack.GetType()));
             }
         }
         else
         {
-            throw new Exception(string.Format("ÒÆ³ıÊÂ¼ş´íÎó£ºÃ»ÓĞÊÂ¼şÂë{0}", eventEnum));
+            throw new Exception(string.Format("ç§»é™¤äº‹ä»¶é”™è¯¯ï¼šæ²¡æœ‰äº‹ä»¶ç {0}", eventEnum));
         }
         m_EventTable[eventEnum] = (CallBack<X>)m_EventTable[eventEnum] - callBack;
         if (m_EventTable[eventEnum] == null)
@@ -166,16 +185,16 @@ public class EventCenter : BaseManager<EventCenter>
             Delegate d = m_EventTable[eventEnum];
             if (d == null)
             {
-                throw new Exception(string.Format("ÒÆ³ıÊÂ¼ş´íÎó£ºÊÂ¼ş{0}Ã»ÓĞ¶ÔÓ¦µÄÎ¯ÍĞÀàĞÍ", eventEnum));
+                throw new Exception(string.Format("ç§»é™¤äº‹ä»¶é”™è¯¯ï¼šäº‹ä»¶{0}æ²¡æœ‰å¯¹åº”çš„å§”æ‰˜ç±»å‹", eventEnum));
             }
             else if (d.GetType() != callBack.GetType())
             {
-                throw new Exception(string.Format("ÒÆ³ıÊÂ¼ş´íÎó£ºÊÂ¼ş{0}Ã»ÓĞ¶ÔÓ¦µÄÎ¯ÍĞ,µ±Ç°Î¯ÍĞÎª{1}£¬ÒªÒÆ³ıµÄÊÂ¼şÎª{2}", eventEnum, d.GetType(), callBack.GetType()));
+                throw new Exception(string.Format("ç§»é™¤äº‹ä»¶é”™è¯¯ï¼šäº‹ä»¶{0}æ²¡æœ‰å¯¹åº”çš„å§”æ‰˜,å½“å‰å§”æ‰˜ä¸º{1}ï¼Œè¦ç§»é™¤çš„äº‹ä»¶ä¸º{2}", eventEnum, d.GetType(), callBack.GetType()));
             }
         }
         else
         {
-            throw new Exception(string.Format("ÒÆ³ıÊÂ¼ş´íÎó£ºÃ»ÓĞÊÂ¼şÂë{0}", eventEnum));
+            throw new Exception(string.Format("ç§»é™¤äº‹ä»¶é”™è¯¯ï¼šæ²¡æœ‰äº‹ä»¶ç {0}", eventEnum));
         }
         m_EventTable[eventEnum] = (CallBack<X, Y>)m_EventTable[eventEnum] - callBack;
         if (m_EventTable[eventEnum] == null)
@@ -198,16 +217,16 @@ public class EventCenter : BaseManager<EventCenter>
             Delegate d = m_EventTable[eventEnum];
             if (d == null)
             {
-                throw new Exception(string.Format("ÒÆ³ıÊÂ¼ş´íÎó£ºÊÂ¼ş{0}Ã»ÓĞ¶ÔÓ¦µÄÎ¯ÍĞÀàĞÍ", eventEnum));
+                throw new Exception(string.Format("ç§»é™¤äº‹ä»¶é”™è¯¯ï¼šäº‹ä»¶{0}æ²¡æœ‰å¯¹åº”çš„å§”æ‰˜ç±»å‹", eventEnum));
             }
             else if (d.GetType() != callBack.GetType())
             {
-                throw new Exception(string.Format("ÒÆ³ıÊÂ¼ş´íÎó£ºÊÂ¼ş{0}Ã»ÓĞ¶ÔÓ¦µÄÎ¯ÍĞ,µ±Ç°Î¯ÍĞÎª{1}£¬ÒªÒÆ³ıµÄÊÂ¼şÎª{2}", eventEnum, d.GetType(), callBack.GetType()));
+                throw new Exception(string.Format("ç§»é™¤äº‹ä»¶é”™è¯¯ï¼šäº‹ä»¶{0}æ²¡æœ‰å¯¹åº”çš„å§”æ‰˜,å½“å‰å§”æ‰˜ä¸º{1}ï¼Œè¦ç§»é™¤çš„äº‹ä»¶ä¸º{2}", eventEnum, d.GetType(), callBack.GetType()));
             }
         }
         else
         {
-            throw new Exception(string.Format("ÒÆ³ıÊÂ¼ş´íÎó£ºÃ»ÓĞÊÂ¼şÂë{0}", eventEnum));
+            throw new Exception(string.Format("ç§»é™¤äº‹ä»¶é”™è¯¯ï¼šæ²¡æœ‰äº‹ä»¶ç {0}", eventEnum));
         }
         m_EventTable[eventEnum] = (CallBack<X, Y, Z>)m_EventTable[eventEnum] - callBack;
         if (m_EventTable[eventEnum] == null)
@@ -231,16 +250,16 @@ public class EventCenter : BaseManager<EventCenter>
             Delegate d = m_EventTable[eventEnum];
             if (d == null)
             {
-                throw new Exception(string.Format("ÒÆ³ıÊÂ¼ş´íÎó£ºÊÂ¼ş{0}Ã»ÓĞ¶ÔÓ¦µÄÎ¯ÍĞÀàĞÍ", eventEnum));
+                throw new Exception(string.Format("ç§»é™¤äº‹ä»¶é”™è¯¯ï¼šäº‹ä»¶{0}æ²¡æœ‰å¯¹åº”çš„å§”æ‰˜ç±»å‹", eventEnum));
             }
             else if (d.GetType() != callBack.GetType())
             {
-                throw new Exception(string.Format("ÒÆ³ıÊÂ¼ş´íÎó£ºÊÂ¼ş{0}Ã»ÓĞ¶ÔÓ¦µÄÎ¯ÍĞ,µ±Ç°Î¯ÍĞÎª{1}£¬ÒªÒÆ³ıµÄÊÂ¼şÎª{2}", eventEnum, d.GetType(), callBack.GetType()));
+                throw new Exception(string.Format("ç§»é™¤äº‹ä»¶é”™è¯¯ï¼šäº‹ä»¶{0}æ²¡æœ‰å¯¹åº”çš„å§”æ‰˜,å½“å‰å§”æ‰˜ä¸º{1}ï¼Œè¦ç§»é™¤çš„äº‹ä»¶ä¸º{2}", eventEnum, d.GetType(), callBack.GetType()));
             }
         }
         else
         {
-            throw new Exception(string.Format("ÒÆ³ıÊÂ¼ş´íÎó£ºÃ»ÓĞÊÂ¼şÂë{0}", eventEnum));
+            throw new Exception(string.Format("ç§»é™¤äº‹ä»¶é”™è¯¯ï¼šæ²¡æœ‰äº‹ä»¶ç {0}", eventEnum));
         }
         m_EventTable[eventEnum] = (CallBack<X, Y, Z, W>)m_EventTable[eventEnum] - callBack;
         if (m_EventTable[eventEnum] == null)
@@ -265,16 +284,16 @@ public class EventCenter : BaseManager<EventCenter>
             Delegate d = m_EventTable[eventEnum];
             if (d == null)
             {
-                throw new Exception(string.Format("ÒÆ³ıÊÂ¼ş´íÎó£ºÊÂ¼ş{0}Ã»ÓĞ¶ÔÓ¦µÄÎ¯ÍĞÀàĞÍ", eventEnum));
+                throw new Exception(string.Format("ç§»é™¤äº‹ä»¶é”™è¯¯ï¼šäº‹ä»¶{0}æ²¡æœ‰å¯¹åº”çš„å§”æ‰˜ç±»å‹", eventEnum));
             }
             else if (d.GetType() != callBack.GetType())
             {
-                throw new Exception(string.Format("ÒÆ³ıÊÂ¼ş´íÎó£ºÊÂ¼ş{0}Ã»ÓĞ¶ÔÓ¦µÄÎ¯ÍĞ,µ±Ç°Î¯ÍĞÎª{1}£¬ÒªÒÆ³ıµÄÊÂ¼şÎª{2}", eventEnum, d.GetType(), callBack.GetType()));
+                throw new Exception(string.Format("ç§»é™¤äº‹ä»¶é”™è¯¯ï¼šäº‹ä»¶{0}æ²¡æœ‰å¯¹åº”çš„å§”æ‰˜,å½“å‰å§”æ‰˜ä¸º{1}ï¼Œè¦ç§»é™¤çš„äº‹ä»¶ä¸º{2}", eventEnum, d.GetType(), callBack.GetType()));
             }
         }
         else
         {
-            throw new Exception(string.Format("ÒÆ³ıÊÂ¼ş´íÎó£ºÃ»ÓĞÊÂ¼şÂë{0}", eventEnum));
+            throw new Exception(string.Format("ç§»é™¤äº‹ä»¶é”™è¯¯ï¼šæ²¡æœ‰äº‹ä»¶ç {0}", eventEnum));
         }
         m_EventTable[eventEnum] = (CallBack<X, Y, Z, W, T>)m_EventTable[eventEnum] - callBack;
         if (m_EventTable[eventEnum] == null)
@@ -283,9 +302,9 @@ public class EventCenter : BaseManager<EventCenter>
         }
     }
     /// <summary>
-    /// ¹ã²¥ÊÂ¼ş
+    /// å¹¿æ’­äº‹ä»¶ è°ƒç”¨æ‰€æœ‰æ­£åœ¨ç›‘å¬ä¸€ä¸ªç±»å‹äº‹ä»¶çš„å‡½æ•°
     /// </summary>
-    /// <param name="eventEnum"></param>
+    /// <param name="eventEnum">äº‹ä»¶ç±»å‹</param>
     public void BraodCastEvent(EventType eventEnum)
     {
         Delegate d;
@@ -298,7 +317,7 @@ public class EventCenter : BaseManager<EventCenter>
             }
             else
             {
-                throw new Exception(string.Format("¹ã²¥ÊÂ¼ş´íÎó£ºÊÂ¼ş{0}ÓĞ²»Í¬ÀàĞÍµÄÎ¯ÍĞ", eventEnum));
+                throw new Exception(string.Format("å¹¿æ’­äº‹ä»¶é”™è¯¯ï¼šäº‹ä»¶{0}æœ‰ä¸åŒç±»å‹çš„å§”æ‰˜", eventEnum));
             }
         }
     }
@@ -320,7 +339,7 @@ public class EventCenter : BaseManager<EventCenter>
             }
             else
             {
-                throw new Exception(string.Format("¹ã²¥ÊÂ¼ş´íÎó£ºÊÂ¼ş{0}ÓĞ²»Í¬ÀàĞÍµÄÎ¯ÍĞ", eventEnum));
+                throw new Exception(string.Format("å¹¿æ’­äº‹ä»¶é”™è¯¯ï¼šäº‹ä»¶{0}æœ‰ä¸åŒç±»å‹çš„å§”æ‰˜", eventEnum));
             }
         }
     }
@@ -344,7 +363,7 @@ public class EventCenter : BaseManager<EventCenter>
             }
             else
             {
-                throw new Exception(string.Format("¹ã²¥ÊÂ¼ş´íÎó£ºÊÂ¼ş{0}ÓĞ²»Í¬ÀàĞÍµÄÎ¯ÍĞ", eventEnum));
+                throw new Exception(string.Format("å¹¿æ’­äº‹ä»¶é”™è¯¯ï¼šäº‹ä»¶{0}æœ‰ä¸åŒç±»å‹çš„å§”æ‰˜", eventEnum));
             }
         }
     }
@@ -370,7 +389,7 @@ public class EventCenter : BaseManager<EventCenter>
             }
             else
             {
-                throw new Exception(string.Format("¹ã²¥ÊÂ¼ş´íÎó£ºÊÂ¼ş{0}ÓĞ²»Í¬ÀàĞÍµÄÎ¯ÍĞ", eventEnum));
+                throw new Exception(string.Format("å¹¿æ’­äº‹ä»¶é”™è¯¯ï¼šäº‹ä»¶{0}æœ‰ä¸åŒç±»å‹çš„å§”æ‰˜", eventEnum));
             }
         }
     }
@@ -398,7 +417,7 @@ public class EventCenter : BaseManager<EventCenter>
             }
             else
             {
-                throw new Exception(string.Format("¹ã²¥ÊÂ¼ş´íÎó£ºÊÂ¼ş{0}ÓĞ²»Í¬ÀàĞÍµÄÎ¯ÍĞ", eventEnum));
+                throw new Exception(string.Format("å¹¿æ’­äº‹ä»¶é”™è¯¯ï¼šäº‹ä»¶{0}æœ‰ä¸åŒç±»å‹çš„å§”æ‰˜", eventEnum));
             }
         }
     }
@@ -428,7 +447,7 @@ public class EventCenter : BaseManager<EventCenter>
             }
             else
             {
-                throw new Exception(string.Format("¹ã²¥ÊÂ¼ş´íÎó£ºÊÂ¼ş{0}ÓĞ²»Í¬ÀàĞÍµÄÎ¯ÍĞ", eventEnum));
+                throw new Exception(string.Format("å¹¿æ’­äº‹ä»¶é”™è¯¯ï¼šäº‹ä»¶{0}æœ‰ä¸åŒç±»å‹çš„å§”æ‰˜", eventEnum));
             }
         }
     }

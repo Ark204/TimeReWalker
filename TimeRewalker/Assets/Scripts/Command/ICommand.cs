@@ -14,15 +14,16 @@ public class RunCommand : ICommand
         player.Move();
     }
 }
-//public class Skill1Command:ICommand
-//{
-//    private int skillId;
-//    public Skill1Command(int Id)
-//    {
-//        skillId = Id;
-//    }
-//    public void execute(BBehaviorCtrl behaviorCtrl)
-//    { 
-//        behaviorCtrl.onAttack(skillId);
-//    }
-//}
+public class Skill1Command : ICommand
+{
+    private int skillId;
+    public Skill1Command(int Id)
+    {
+        skillId = Id;
+    }
+    public void execute(BehaviourCtrl behaviorCtrl)
+    {
+        PlayerCtrl playerCtrl = behaviorCtrl as PlayerCtrl;
+        playerCtrl.OnAttack(skillId);
+    }
+}

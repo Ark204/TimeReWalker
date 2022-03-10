@@ -35,6 +35,7 @@ public struct TimeInfo2
     public enum InfoType
     {
         Position,
+        Rotation,
         Localscale,
         AnimatorState,
         AttackPoint,

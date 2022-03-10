@@ -40,6 +40,10 @@ public class PlayerShadow : MonoBehaviour
                     Vector3 vector = (Vector3)timeInfo.Value;
                     transform.position = vector; break;
                 }
+            case TimeInfo2.InfoType.Rotation:
+                {
+                    transform.rotation = (Quaternion)timeInfo.Value;break;
+                }
             case TimeInfo2.InfoType.Localscale:
                 {
                     transform.localScale = (Vector3)timeInfo.Value; break;

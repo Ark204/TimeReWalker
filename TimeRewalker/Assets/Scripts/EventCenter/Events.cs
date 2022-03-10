@@ -9,4 +9,6 @@ public enum EventType
     PlayerTouchGround,
     ModifierAdd,
     ModifierRemove,
+    PlayerHpChange,
+    PlayerEnergyChange,
 }
