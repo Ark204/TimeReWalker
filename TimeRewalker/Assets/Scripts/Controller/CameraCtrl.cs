@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class CameraCtrl : MonoBehaviour
 {
-    private static CameraCtrl _camInstance;             //当前类实例
+    //private static CameraCtrl _camInstance;             //当前类实例
     private static CinemachineVirtualCamera Cam;        //相机组件
     
     private float zoomDir;                              //镜头缩放方向
@@ -22,11 +22,11 @@ public class CameraCtrl : MonoBehaviour
         targetSize = Cam.m_Lens.OrthographicSize;       //默认初始缩放即为当前镜头大小
     }
 
-    private void Awake()
+    /*private void Awake()
     {
         if (_camInstance == null)
             _camInstance = this;
-    }
+    }*/
 
     private void Update()
     {
@@ -35,15 +35,23 @@ public class CameraCtrl : MonoBehaviour
 
     private void ScrollToZoom()
     {
-        zoomDir=Input.GetAxis("Mouse ScrollWheel"); //输入滚轮方向
-        targetSize = Cam.m_Lens.OrthographicSize - zoomDir * zoomSpeed;//更改目标缩放大小
-        if (targetSize > _MAX_SIZE)                 //限制缩放大小在指定取值范围内
-            targetSize = _MAX_SIZE;
-        else if (targetSize < _MIN_SIZE) 
-            targetSize = _MIN_SIZE;
-        if (Cam.m_Lens.OrthographicSize < targetSize - 0.1f ||
-            Cam.m_Lens.OrthographicSize > targetSize + 0.1f)//当目前镜头大小和目标镜头大小不符合则缩放镜头
-            Cam.m_Lens.OrthographicSize = Mathf.Lerp(Cam.m_Lens.OrthographicSize, targetSize, 0.4f);
+       zoomDir=Input.GetAxis("Mouse ScrollWheel");   //输入滚轮方向
+       targetSize = Cam.m_Lens.OrthographicSize - zoomDir * zoomSpeed;//更改目标缩放大小
+       
+       //限制缩放大小在指定取值范围内
+       if (targetSize > _MAX_SIZE) 
+       { 
+           targetSize = _MAX_SIZE;
+       }
+       else if (targetSize < _MIN_SIZE)
+       { 
+           targetSize = _MIN_SIZE;
+       }
+       
+       //当目前镜头大小和目标镜头大小不符合则缩放镜头
+       if (Cam.m_Lens.OrthographicSize < targetSize - 0.1f ||
+           Cam.m_Lens.OrthographicSize > targetSize + 0.1f)
+           Cam.m_Lens.OrthographicSize = Mathf.Lerp(Cam.m_Lens.OrthographicSize, targetSize, 0.4f);
 
 
     }
